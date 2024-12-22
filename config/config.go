@@ -21,20 +21,20 @@ type Config struct {
 
 var AppConfig *Config
 
-func LoadConfig() {
+func LoadConfig(path string) {
 	viper.SetConfigName("config") // config file name
 	viper.SetConfigType("yaml")   // config extension
-	viper.AddConfigPath("../../") // config path
+	viper.AddConfigPath(path)     // config path
 
 	// read config file
 	if err := viper.ReadInConfig(); err != nil {
-		util.GetLogger().LogErrorWithMsgAndError("Error reading config file", err)
+		util.GetLogger().LogErrorWithMsgAndError("Error reading config file", err, false)
 	}
 
 	// decode config into struct
 	AppConfig = &Config{}
 	if err := viper.Unmarshal(AppConfig); err != nil {
-		util.GetLogger().LogErrorWithMsgAndError("Unable to decode config into struct", err)
+		util.GetLogger().LogErrorWithMsgAndError("Unable to decode config into struct", err, false)
 	}
 
 	util.GetLogger().LogInfo("Config loaded successfully")

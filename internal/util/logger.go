@@ -45,6 +45,9 @@ func InitLogger(logFilePath string) *Logger {
 // singleton instance
 func GetLogger() *Logger {
 	if instance == nil {
+		InitLogger("../../logs/app.log")
+	}
+	if instance == nil {
 		log.Fatalf("Logger has not been initialized. Call InitLogger first.")
 	}
 	return instance
@@ -55,15 +58,23 @@ func (l *Logger) LogInfo(message string) {
 	l.infoLogger.Println(l.formatLog(message))
 }
 
-func (l *Logger) LogErrorWithMsg(message string) {
-	fmt.Println("ERROR: " + message)
+func (l *Logger) LogErrorWithMsg(message string, isExit bool) {
 	l.errorLogger.Println(l.formatLog(message))
+	if isExit {
+		log.Fatalf("%s", "ERROR: "+message)
+	} else {
+		fmt.Println("ERROR: " + message)
+	}
 }
 
-func (l *Logger) LogErrorWithMsgAndError(message string, err error) {
-	errMsg := fmt.Sprintf(message+", %v", err)
-	fmt.Println("ERROR: " + errMsg)
+func (l *Logger) LogErrorWithMsgAndError(message string, err error, isExit bool) {
+	errMsg := fmt.Sprintf(message+" - %v", err)
 	l.errorLogger.Println(l.formatLog(errMsg))
+	if isExit {
+		log.Fatalf("%s", "ERROR: "+errMsg)
+	} else {
+		fmt.Println("ERROR: " + errMsg)
+	}
 }
 
 func (l *Logger) formatLog(message string) string {
