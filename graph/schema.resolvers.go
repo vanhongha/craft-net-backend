@@ -48,7 +48,27 @@ func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
+	db := db.GetDB()
+
+	rows, err := db.Query(ctx, "SELECT id, username FROM accounts")
+
+	if err != nil {
+		util.GetLogger().LogErrorWithMsgAndError("failed to get users", err, false)
+		return nil, errors.New("failed to get users")
+	}
+	defer rows.Close()
+
+	var users []*model.User
+	for rows.Next() {
+		var user model.User
+		if err := rows.Scan(&user.ID, &user.Username); err != nil {
+			util.GetLogger().LogErrorWithMsgAndError("failed to parse user", err, false)
+			return nil, errors.New("failed to parse user")
+		}
+		users = append(users, &user)
+	}
+
+	return users, nil
 }
 
 // Mutation returns MutationResolver implementation.
