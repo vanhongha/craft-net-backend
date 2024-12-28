@@ -2,6 +2,22 @@
 
 package model
 
+type Account struct {
+	Username     string `json:"username"`
+	PasswordHash string `json:"passwordHash"`
+}
+
+type AuthPayload struct {
+	AccessToken string `json:"accessToken"`
+	ReloadToken string `json:"reloadToken"`
+	User        *User  `json:"user"`
+}
+
+type LoginInput struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type Mutation struct {
 }
 

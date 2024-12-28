@@ -6,6 +6,7 @@ package graph
 
 import (
 	"context"
+	"craftnet/config"
 	"craftnet/graph/model"
 	"craftnet/internal/db"
 	"craftnet/internal/util"
@@ -21,7 +22,7 @@ func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 
 	var existingUser model.User
 	if err := db.QueryRow(ctx, "SELECT id FROM accounts WHERE username = $1", input.Username).Scan(&existingUser.ID); err == nil {
-		util.GetLogger().LogErrorWithMsgAndError("username"+input.Username+" already exists", err, false)
+		util.GetLogger().LogErrorWithMsgAndError("username "+input.Username+" already exists", err, false)
 		return nil, errors.New("username already exists")
 	}
 
@@ -44,6 +45,34 @@ func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInp
 
 	util.GetLogger().LogInfo(fmt.Sprintf("Register new account succesfully. Id: %s, username: %s", newUser.ID, newUser.Username))
 	return &newUser, nil
+}
+
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input model.LoginInput) (*model.AuthPayload, error) {
+	db := db.GetDB()
+
+	var account model.Account
+	if err := db.QueryRow(ctx, "SELECT id, username, password_hash FROM accounts WHERE username = $1", input.Username).Scan(&account.Username, &account.PasswordHash); err != nil {
+		util.GetLogger().LogErrorWithMsgAndError("invalid username or password", err, false)
+		return nil, errors.New("invalid username or password")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(account.PasswordHash), []byte(input.Password)); err != nil {
+		util.GetLogger().LogErrorWithMsgAndError("invalid username or password", err, false)
+		return nil, errors.New("invalid username or password")
+	}
+
+	token, err := util.GenerateJWT(account.Username, config.GetJwtSecret())
+
+	if err != nil {
+		util.GetLogger().LogErrorWithMsgAndError("failed to generate token", err, false)
+		return nil, errors.New("failed to generate token")
+	}
+
+	return &model.AuthPayload{
+		AccessToken: token,
+		User:        account.Username,
+	}, nil
 }
 
 // Users is the resolver for the users field.

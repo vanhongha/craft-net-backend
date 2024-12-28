@@ -3,8 +3,15 @@ type User {
   username: String!
 }
 
-type Query {
-  users: [User!]!
+type Account {
+  username: String!
+  passwordHash: String!
+}
+
+type AuthPayload {
+  accessToken: String!
+  reloadToken: String!
+  user: User!
 }
 
 input RegisterInput {
@@ -12,6 +19,16 @@ input RegisterInput {
   password: String!
 }
 
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+type Query {
+  users: [User!]!
+}
+
 type Mutation {
   register(input: RegisterInput!): User!
+  login(input: LoginInput!): AuthPayload!
 }

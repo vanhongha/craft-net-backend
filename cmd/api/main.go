@@ -5,6 +5,7 @@ import (
 	"craftnet/graph"
 	"craftnet/internal/db"
 	"craftnet/internal/util"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -55,4 +56,6 @@ func main() {
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
+
+	fmt.Println("aa")
 }
