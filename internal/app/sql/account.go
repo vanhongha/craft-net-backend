@@ -18,7 +18,8 @@ func GetAccountByUsername(username string) (*model.Account, *craftnet_model.Erro
 	var account = &model.Account{
 		User: &model.User{},
 	}
-	if err := db.Instance.QueryRow("SELECT id, user_id, username FROM accounts WHERE username = ?", username).Scan(&account.ID, &account.User.ID, &account.Username); !lo.IsNil(err) {
+	if err := db.Instance.QueryRow("SELECT id, user_id, username, password_hash FROM accounts WHERE username = ?", username).
+		Scan(&account.ID, &account.User.ID, &account.Username, &account.PasswordHash); !lo.IsNil(err) {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}

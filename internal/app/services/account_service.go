@@ -3,11 +3,11 @@ package services
 import (
 	"craftnet/graph/model"
 	"craftnet/internal/app/sql"
+	"craftnet/internal/app/tools"
 	craftnet_model "craftnet/internal/model"
 	"craftnet/internal/util"
 
 	"github.com/samber/lo"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func RegisterAccount(username string, password string) (*model.Account, *craftnet_model.Error) {
@@ -25,7 +25,7 @@ func RegisterAccount(username string, password string) (*model.Account, *craftne
 		}
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashedPassword, err := tools.HashPassword(password)
 	if !lo.IsNil(err) {
 		errMsg := util.ErrorMessage(util.ERROR_CODE[util.FAIL_TO_HASH_PASSWORD])
 		util.GetLogger().LogErrorWithMsgAndError(errMsg, err, false)

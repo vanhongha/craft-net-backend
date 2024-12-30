@@ -8,65 +8,22 @@ import (
 	"context"
 	"craftnet/graph/model"
 	"craftnet/internal/app/handlers"
-	"craftnet/internal/util"
-	"errors"
 	"fmt"
-
-	"github.com/samber/lo"
 )
 
-// Register is the resolver for the register field.
-func (r *mutationResolver) Register(ctx context.Context, input model.RegisterInput) (*model.RegisterResponse, error) {
-	account, error := handlers.RegisterAccountHandler(input.Username, input.Password)
-
-	if !lo.IsNil(error) {
-		return nil, errors.New(error.Message)
-	}
-
-	if lo.IsNil(account) {
-		errMsg := util.ErrorMessage(util.ERROR_CODE[util.FAIL_TO_CREATE], "account")
-		util.GetLogger().LogErrorWithMsg(errMsg, false)
-		return nil, errors.New(errMsg)
-	}
-
-	fmt.Println(account)
-	response := &model.RegisterResponse{
-		UserID:    account.User.ID,
-		AccountID: account.ID,
-		Username:  account.Username,
-	}
-	return response, nil
+// Login is the resolver for the login field.
+func (r *authOpsResolver) Login(ctx context.Context, obj *model.AuthOps, input model.LoginInput) (any, error) {
+	return handlers.Login(input.Username, input.Password)
 }
 
-// Login is the resolver for the login field.
-func (r *mutationResolver) Login(ctx context.Context, input model.LoginInput) (*model.AuthPayload, error) {
-	// db := db.GetDB()
+// Register is the resolver for the register field.
+func (r *authOpsResolver) Register(ctx context.Context, obj *model.AuthOps, input model.RegisterInput) (any, error) {
+	panic(fmt.Errorf("not implemented: Register - register"))
+}
 
-	// var account model.Account
-	// if err := db.QueryRow(ctx, "SELECT id, username, password_hash FROM accounts WHERE username = $1", input.Username).Scan(&account.Username, &account.PasswordHash); err != nil {
-	// 	util.GetLogger().LogErrorWithMsgAndError("invalid username or password", err, false)
-	// 	return nil, errors.New("invalid username or password")
-	// }
-
-	// if err := bcrypt.CompareHashAndPassword([]byte(account.PasswordHash), []byte(input.Password)); err != nil {
-	// 	util.GetLogger().LogErrorWithMsgAndError("invalid username or password", err, false)
-	// 	return nil, errors.New("invalid username or password")
-	// }
-
-	// token, err := util.GenerateJWT(account.Username, config.GetJwtSecret())
-
-	// if err != nil {
-	// 	util.GetLogger().LogErrorWithMsgAndError("failed to generate token", err, false)
-	// 	return nil, errors.New("failed to generate token")
-	// }
-
-	// fmt.Println("aa")
-	// return &model.AuthPayload{
-	// 	AccessToken: token,
-	// 	User:        account.Username,
-	// }, nil
-
-	return nil, nil
+// Auth is the resolver for the auth field.
+func (r *mutationResolver) Auth(ctx context.Context) (*model.AuthOps, error) {
+	return &model.AuthOps{}, nil
 }
 
 // Users is the resolver for the users field.
@@ -96,11 +53,20 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	return nil, nil
 }
 
+// Protected is the resolver for the protected field.
+func (r *queryResolver) Protected(ctx context.Context) (string, error) {
+	return "Success", nil
+}
+
+// AuthOps returns AuthOpsResolver implementation.
+func (r *Resolver) AuthOps() AuthOpsResolver { return &authOpsResolver{r} }
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type authOpsResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

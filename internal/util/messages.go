@@ -28,17 +28,27 @@ func InfoMessage(code string, obj ...any) string {
 	return fmt.Sprintf(INFO_MESSAGE[code], obj...)
 }
 
+func NotiMessage(code string, obj ...any) string {
+	if len(obj) == 0 || obj[0] == nil {
+		return NOTI_MESSAGE[code]
+	}
+	return fmt.Sprintf(NOTI_MESSAGE[code], obj...)
+}
+
 var ERROR_MESSAGE = map[string]string{
 	// App errors
 	ERROR_CODE[INTERNAL_SERVER]: "Internal server error",
 
 	// User errors
-	ERROR_CODE[USER_ALREADY_EXISTS]: "User %s already exists",
-	ERROR_CODE[USER_NOT_FOUND]:      "User not found",
+	ERROR_CODE[USER_ALREADY_EXISTS]:            "User %s already exists",
+	ERROR_CODE[USER_NOT_FOUND]:                 "User not found",
+	ERROR_CODE[USER_INVALID_USERNAME_PASSWORD]: "Invalid username or password",
 
 	// Fail errors
 	ERROR_CODE[FAIL_TO_HASH_PASSWORD]: "Fail to hash password",
 	ERROR_CODE[FAIL_TO_CREATE]:        "Fail to create %s",
+	ERROR_CODE[FAIL_TO_VALIDATE]:      "Fail to validate %s",
+	ERROR_CODE[FAIL_TO_GENERATE]:      "Fail to generate %s",
 }
 
 var INFO_MESSAGE = map[string]string{
@@ -47,17 +57,24 @@ var INFO_MESSAGE = map[string]string{
 	INFO_CODE[INFO_ACTION_SUCCESFULLY]: "%s occured succesfully",
 }
 
+var NOTI_MESSAGE = map[string]string{
+	NOTI_CODE[NOTI_CREATE_ACCOUNT_SUCCESSFULLY]: "Create account succesfully",
+}
+
 var ERROR_CODE = map[string]string{
 	// App errors
 	INTERNAL_SERVER: "A1001",
 
 	// User errors
-	USER_ALREADY_EXISTS: "DU1001",
-	USER_NOT_FOUND:      "DU1002",
+	USER_ALREADY_EXISTS:            "DU1001",
+	USER_NOT_FOUND:                 "DU1002",
+	USER_INVALID_USERNAME_PASSWORD: "DU1003",
 
 	// Fail errors
 	FAIL_TO_HASH_PASSWORD: "DF1001",
 	FAIL_TO_CREATE:        "DF1002",
+	FAIL_TO_VALIDATE:      "DF1003",
+	FAIL_TO_GENERATE:      "DF1004",
 }
 
 var INFO_CODE = map[string]string{
@@ -66,17 +83,27 @@ var INFO_CODE = map[string]string{
 	INFO_INSERTED_ACCOUNT:   "IF1003",
 }
 
+var NOTI_CODE = map[string]string{
+	NOTI_CREATE_ACCOUNT_SUCCESSFULLY: "NT1001",
+}
+
 const (
 	// App errors
 	INTERNAL_SERVER = "INTERNAL_SERVER"
 
 	// User errors
-	USER_ALREADY_EXISTS = "USER_ALREADY_EXISTS"
-	USER_NOT_FOUND      = "USER_NOT_FOUND"
+	USER_ALREADY_EXISTS            = "USER_ALREADY_EXISTS"
+	USER_NOT_FOUND                 = "USER_NOT_FOUND"
+	USER_INVALID_USERNAME_PASSWORD = "USER_INVALID_USERNAME_PASSWORD"
 
 	// Fail errors
 	FAIL_TO_HASH_PASSWORD = "FAIL_TO_HASH_PASSWORD"
 	FAIL_TO_CREATE        = "FAIL_TO_CREATE"
+	FAIL_TO_VALIDATE      = "FAIL_TO_VALIDATE"
+	FAIL_TO_GENERATE      = "FAIL_TO_GENERATE"
+
+	// Noti
+	NOTI_CREATE_ACCOUNT_SUCCESSFULLY = "NOTI_CREATE_ACCOUNT_SUCCESSFULLY"
 
 	// Info
 	INFO_ACTION_SUCCESFULLY = "INFO_ACTION_SUCCESFULLY"

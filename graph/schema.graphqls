@@ -1,3 +1,9 @@
+directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+# new directive
+directive @auth on FIELD_DEFINITION
+
+scalar Any
 scalar Int64
 
 type User {
@@ -19,14 +25,16 @@ type Account {
 
 type AuthPayload {
   accessToken: String!
-  reloadToken: String!
-  user: User!
+  refreshToken: String!
+  account: Account!
+  message: String!
 }
 
 type RegisterResponse {
   accountId: Int64!
   userId: Int64!
   username: String!
+  message: String!
 }
 
 input RegisterInput {
@@ -39,11 +47,17 @@ input LoginInput {
   password: String!
 }
 
+type AuthOps {
+  login(input: LoginInput!): Any! @goField(forceResolver: true)
+  register(input: RegisterInput!): Any! @goField(forceResolver: true)
+}
+
 type Query {
-  users: [User!]!
+  users: [User!]! @goField(forceResolver: true)
+
+  protected: String! @goField(forceResolver: true) @auth
 }
 
 type Mutation {
-  register(input: RegisterInput!): RegisterResponse!
-  login(input: LoginInput!): AuthPayload!
+  auth: AuthOps! @goField(forceResolver: true)
 }

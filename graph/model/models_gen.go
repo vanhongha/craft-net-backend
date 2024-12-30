@@ -9,10 +9,16 @@ type Account struct {
 	PasswordHash string `json:"passwordHash"`
 }
 
+type AuthOps struct {
+	Login    any `json:"login"`
+	Register any `json:"register"`
+}
+
 type AuthPayload struct {
-	AccessToken string `json:"accessToken"`
-	ReloadToken string `json:"reloadToken"`
-	User        *User  `json:"user"`
+	AccessToken  string   `json:"accessToken"`
+	RefreshToken string   `json:"refreshToken"`
+	Account      *Account `json:"account"`
+	Message      string   `json:"message"`
 }
 
 type LoginInput struct {
@@ -35,6 +41,7 @@ type RegisterResponse struct {
 	AccountID int    `json:"accountId"`
 	UserID    int    `json:"userId"`
 	Username  string `json:"username"`
+	Message   string `json:"message"`
 }
 
 type User struct {

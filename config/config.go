@@ -3,6 +3,7 @@ package config
 import (
 	"craftnet/internal/util"
 
+	"github.com/samber/lo"
 	"github.com/spf13/viper"
 )
 
@@ -28,7 +29,7 @@ var AppConfig *Config
 
 func GetAppConfig() *Config {
 	if AppConfig == nil {
-		LoadConfig("../")
+		LoadConfig("../../")
 	}
 	if AppConfig == nil {
 		util.GetLogger().LogErrorWithMsg("Please load config first", true)
@@ -37,6 +38,10 @@ func GetAppConfig() *Config {
 }
 
 func LoadConfig(path string) {
+	if !lo.IsNil(AppConfig) {
+		return
+	}
+
 	viper.SetConfigName("config") // config file name
 	viper.SetConfigType("yaml")   // config extension
 	viper.AddConfigPath(path)     // config path

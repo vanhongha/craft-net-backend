@@ -3,6 +3,8 @@ package main
 import (
 	"craftnet/config"
 	"craftnet/graph"
+	"craftnet/internal/app/directives"
+	"craftnet/internal/app/middleware"
 	"craftnet/internal/db"
 	"craftnet/internal/util"
 	"log"
@@ -14,6 +16,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gorilla/mux"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -37,7 +40,13 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	router := mux.NewRouter()
+	router.Use(middleware.AuthMiddleware)
+
+	c := graph.Config{Resolvers: &graph.Resolver{}}
+	c.Directives.Auth = directives.Auth
+
+	srv := handler.New(graph.NewExecutableSchema(c))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
@@ -51,7 +60,7 @@ func main() {
 	})
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	http.Handle("/query", middleware.AuthMiddleware(srv))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
