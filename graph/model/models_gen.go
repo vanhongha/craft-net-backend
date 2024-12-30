@@ -3,6 +3,8 @@
 package model
 
 type Account struct {
+	ID           int    `json:"id"`
+	User         *User  `json:"user"`
 	Username     string `json:"username"`
 	PasswordHash string `json:"passwordHash"`
 }
@@ -29,7 +31,18 @@ type RegisterInput struct {
 	Password string `json:"password"`
 }
 
+type RegisterResponse struct {
+	AccountID int    `json:"accountId"`
+	UserID    int    `json:"userId"`
+	Username  string `json:"username"`
+}
+
 type User struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
+	ID          int    `json:"id"`
+	LastName    string `json:"lastName"`
+	FirstName   string `json:"firstName"`
+	DateOfBirth string `json:"dateOfBirth"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phoneNumber"`
+	Status      string `json:"status"`
 }

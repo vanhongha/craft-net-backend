@@ -1,9 +1,9 @@
 database:
   host: "localhost"
-  port: 5432
+  port: 3306
   user: "root"
   password: "fAthice7atlriwlSiD3L"
-  dbname: "craft-net-backend_db"
+  dbname: "craftnet"
   sslmode: "disable"
 
 jwt:

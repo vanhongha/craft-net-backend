@@ -5,7 +5,6 @@ import (
 	"craftnet/graph"
 	"craftnet/internal/db"
 	"craftnet/internal/util"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -30,7 +29,7 @@ func main() {
 
 	// connect to DB
 	db.ConnectDatabase()
-	defer db.CloseDatabase()
+	defer db.Instance.Close()
 
 	// run graphQL
 	port := os.Getenv("PORT")
@@ -56,6 +55,4 @@ func main() {
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
-
-	fmt.Println("aa")
 }

@@ -2,7 +2,6 @@ package config
 
 import (
 	"craftnet/internal/util"
-	"fmt"
 
 	"github.com/spf13/viper"
 )
@@ -52,8 +51,6 @@ func LoadConfig(path string) {
 	if err := viper.Unmarshal(AppConfig); err != nil {
 		util.GetLogger().LogErrorWithMsgAndError("Unable to decode config into struct", err, false)
 	}
-
-	fmt.Println(222)
 
 	util.GetLogger().LogInfo("Config loaded successfully")
 }

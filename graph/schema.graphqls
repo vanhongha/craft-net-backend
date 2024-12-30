@@ -1,9 +1,18 @@
+scalar Int64
+
 type User {
-  id: String!
-  username: String!
+  id: Int64!
+  lastName: String!
+  firstName: String!
+  dateOfBirth: String!
+  email: String!
+  phoneNumber: String!
+  status: String!
 }
 
 type Account {
+  id: Int64!
+  user: User!
   username: String!
   passwordHash: String!
 }
@@ -12,6 +21,12 @@ type AuthPayload {
   accessToken: String!
   reloadToken: String!
   user: User!
+}
+
+type RegisterResponse {
+  accountId: Int64!
+  userId: Int64!
+  username: String!
 }
 
 input RegisterInput {
@@ -29,6 +44,6 @@ type Query {
 }
 
 type Mutation {
-  register(input: RegisterInput!): User!
+  register(input: RegisterInput!): RegisterResponse!
   login(input: LoginInput!): AuthPayload!
 }

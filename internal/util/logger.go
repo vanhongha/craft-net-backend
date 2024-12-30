@@ -54,7 +54,6 @@ func GetLogger() *Logger {
 }
 
 func (l *Logger) LogInfo(message string) {
-	fmt.Println("INFO: " + message)
 	l.infoLogger.Println(l.formatLog(message))
 }
 
@@ -62,8 +61,6 @@ func (l *Logger) LogErrorWithMsg(message string, isExit bool) {
 	l.errorLogger.Println(l.formatLog(message))
 	if isExit {
 		log.Fatalf("%s", "ERROR: "+message)
-	} else {
-		fmt.Println("ERROR: " + message)
 	}
 }
 
@@ -72,8 +69,6 @@ func (l *Logger) LogErrorWithMsgAndError(message string, err error, isExit bool)
 	l.errorLogger.Println(l.formatLog(errMsg))
 	if isExit {
 		log.Fatalf("%s", "ERROR: "+errMsg)
-	} else {
-		fmt.Println("ERROR: " + errMsg)
 	}
 }
 
