@@ -8,17 +8,16 @@ import (
 	"context"
 	"craftnet/graph/model"
 	"craftnet/internal/app/handlers"
-	"fmt"
 )
 
 // Login is the resolver for the login field.
-func (r *authOpsResolver) Login(ctx context.Context, obj *model.AuthOps, input model.LoginInput) (any, error) {
+func (r *authOpsResolver) Login(ctx context.Context, obj *model.AuthOps, input model.LoginInput) (*model.LoginResponse, error) {
 	return handlers.Login(input.Username, input.Password)
 }
 
 // Register is the resolver for the register field.
-func (r *authOpsResolver) Register(ctx context.Context, obj *model.AuthOps, input model.RegisterInput) (any, error) {
-	panic(fmt.Errorf("not implemented: Register - register"))
+func (r *authOpsResolver) Register(ctx context.Context, obj *model.AuthOps, input model.RegisterInput) (*model.RegisterResponse, error) {
+	return handlers.RegisterAccountHandler(input.Username, input.Password)
 }
 
 // Auth is the resolver for the auth field.
@@ -56,6 +55,11 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 // Protected is the resolver for the protected field.
 func (r *queryResolver) Protected(ctx context.Context) (string, error) {
 	return "Success", nil
+}
+
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context, input model.GetUserInput) (*model.GetUserResponse, error) {
+	return handlers.GetUser(input.UserID)
 }
 
 // AuthOps returns AuthOpsResolver implementation.

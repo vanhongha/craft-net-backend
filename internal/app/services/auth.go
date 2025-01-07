@@ -11,7 +11,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func Login(username string, password string) (interface{}, *craftnet_model.Error) {
+func Login(username string, password string) (*model.LoginResponse, *craftnet_model.Error) {
 	// Get user information
 	account, craftnetError := sql.GetAccountByUsername(username)
 	if !lo.IsNil(craftnetError) {
@@ -59,13 +59,10 @@ func Login(username string, password string) (interface{}, *craftnet_model.Error
 		}
 	}
 
-	authPayload := &model.AuthPayload{
+	authPayload := &model.LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
-		Account: &model.Account{
-			Username: account.Username,
-		},
-		Message: "OKOK test",
+		UserID:       account.User.ID,
 	}
 
 	return authPayload, nil

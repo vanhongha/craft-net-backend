@@ -14,6 +14,7 @@ type User {
   email: String!
   phoneNumber: String!
   status: String!
+  avatarImgPath: String
 }
 
 type Account {
@@ -23,20 +24,7 @@ type Account {
   passwordHash: String!
 }
 
-type AuthPayload {
-  accessToken: String!
-  refreshToken: String!
-  account: Account!
-  message: String!
-}
-
-type RegisterResponse {
-  accountId: Int64!
-  userId: Int64!
-  username: String!
-  message: String!
-}
-
+# REQUEST
 input RegisterInput {
   username: String!
   password: String!
@@ -47,15 +35,38 @@ input LoginInput {
   password: String!
 }
 
+input GetUserInput {
+  userId: Int64!
+}
+
+# RESPONSE
+type LoginResponse {
+  accessToken: String!
+  refreshToken: String!
+  userId: Int64!
+}
+
+type RegisterResponse {
+  accountId: Int64!
+  userId: Int64!
+  username: String!
+  message: String!
+}
+
+type GetUserResponse {
+  user: User!
+}
+
 type AuthOps {
-  login(input: LoginInput!): Any! @goField(forceResolver: true)
-  register(input: RegisterInput!): Any! @goField(forceResolver: true)
+  login(input: LoginInput!): LoginResponse! @goField(forceResolver: true)
+  register(input: RegisterInput!): RegisterResponse! @goField(forceResolver: true)
 }
 
 type Query {
   users: [User!]! @goField(forceResolver: true)
 
   protected: String! @goField(forceResolver: true) @auth
+  user(input: GetUserInput!): GetUserResponse! @goField(forceResolver: true) @auth
 }
 
 type Mutation {

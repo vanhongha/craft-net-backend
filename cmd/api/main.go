@@ -17,6 +17,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -43,10 +44,10 @@ func main() {
 	router := mux.NewRouter()
 	router.Use(middleware.AuthMiddleware)
 
-	c := graph.Config{Resolvers: &graph.Resolver{}}
-	c.Directives.Auth = directives.Auth
+	gc := graph.Config{Resolvers: &graph.Resolver{}}
+	gc.Directives.Auth = directives.Auth
 
-	srv := handler.New(graph.NewExecutableSchema(c))
+	srv := handler.New(graph.NewExecutableSchema(gc))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
@@ -59,8 +60,12 @@ func main() {
 		Cache: lru.New[string](100),
 	})
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowCredentials: true,
+	})
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", middleware.AuthMiddleware(srv))
+	http.Handle("/query", middleware.AuthMiddleware(c.Handler(srv)))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

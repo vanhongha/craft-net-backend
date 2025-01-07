@@ -10,20 +10,27 @@ type Account struct {
 }
 
 type AuthOps struct {
-	Login    any `json:"login"`
-	Register any `json:"register"`
+	Login    *LoginResponse    `json:"login"`
+	Register *RegisterResponse `json:"register"`
 }
 
-type AuthPayload struct {
-	AccessToken  string   `json:"accessToken"`
-	RefreshToken string   `json:"refreshToken"`
-	Account      *Account `json:"account"`
-	Message      string   `json:"message"`
+type GetUserInput struct {
+	UserID int `json:"userId"`
+}
+
+type GetUserResponse struct {
+	User *User `json:"user"`
 }
 
 type LoginInput struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type LoginResponse struct {
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	UserID       int    `json:"userId"`
 }
 
 type Mutation struct {
@@ -45,11 +52,12 @@ type RegisterResponse struct {
 }
 
 type User struct {
-	ID          int    `json:"id"`
-	LastName    string `json:"lastName"`
-	FirstName   string `json:"firstName"`
-	DateOfBirth string `json:"dateOfBirth"`
-	Email       string `json:"email"`
-	PhoneNumber string `json:"phoneNumber"`
-	Status      string `json:"status"`
+	ID            int     `json:"id"`
+	LastName      string  `json:"lastName"`
+	FirstName     string  `json:"firstName"`
+	DateOfBirth   string  `json:"dateOfBirth"`
+	Email         string  `json:"email"`
+	PhoneNumber   string  `json:"phoneNumber"`
+	Status        string  `json:"status"`
+	AvatarImgPath *string `json:"avatarImgPath,omitempty"`
 }

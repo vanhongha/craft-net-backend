@@ -49,6 +49,7 @@ var ERROR_MESSAGE = map[string]string{
 	ERROR_CODE[FAIL_TO_CREATE]:        "Fail to create %s",
 	ERROR_CODE[FAIL_TO_VALIDATE]:      "Fail to validate %s",
 	ERROR_CODE[FAIL_TO_GENERATE]:      "Fail to generate %s",
+	ERROR_CODE[FAIL_TO_GET]:           "Fail to get %s",
 }
 
 var INFO_MESSAGE = map[string]string{
@@ -75,6 +76,7 @@ var ERROR_CODE = map[string]string{
 	FAIL_TO_CREATE:        "DF1002",
 	FAIL_TO_VALIDATE:      "DF1003",
 	FAIL_TO_GENERATE:      "DF1004",
+	FAIL_TO_GET:           "DF1005",
 }
 
 var INFO_CODE = map[string]string{
@@ -101,6 +103,7 @@ const (
 	FAIL_TO_CREATE        = "FAIL_TO_CREATE"
 	FAIL_TO_VALIDATE      = "FAIL_TO_VALIDATE"
 	FAIL_TO_GENERATE      = "FAIL_TO_GENERATE"
+	FAIL_TO_GET           = "FAIL_TO_GET"
 
 	// Noti
 	NOTI_CREATE_ACCOUNT_SUCCESSFULLY = "NOTI_CREATE_ACCOUNT_SUCCESSFULLY"

@@ -31,7 +31,7 @@ func RegisterAccountHandler(username string, password string) (*model.RegisterRe
 	return response, nil
 }
 
-func Login(username string, password string) (interface{}, error) {
+func Login(username string, password string) (*model.LoginResponse, error) {
 	authPlayload, err := services.Login(username, password)
 	if !lo.IsNil(err) {
 		return nil, errors.New(err.Message)
