@@ -37,7 +37,8 @@ func NotiMessage(code string, obj ...any) string {
 
 var ERROR_MESSAGE = map[string]string{
 	// App errors
-	ERROR_CODE[INTERNAL_SERVER]: "Internal server error",
+	ERROR_CODE[INTERNAL_SERVER]:       "Internal server error",
+	ERROR_CODE[CANNOT_VALIDATE_TOKEN]: "Invalid token",
 
 	// User errors
 	ERROR_CODE[USER_ALREADY_EXISTS]:            "User %s already exists",
@@ -53,9 +54,10 @@ var ERROR_MESSAGE = map[string]string{
 }
 
 var INFO_MESSAGE = map[string]string{
-	INFO_CODE[INFO_INSERTED_USER]:      "Inserted user with id %d",
-	INFO_CODE[INFO_INSERTED_ACCOUNT]:   "Inserted account with id %d",
-	INFO_CODE[INFO_ACTION_SUCCESFULLY]: "%s occured succesfully",
+	INFO_CODE[INFO_INSERTED_USER]:                "Inserted user with id %d",
+	INFO_CODE[INFO_INSERTED_ACCOUNT]:             "Inserted account with id %d",
+	INFO_CODE[INFO_TOKEN_VALIDATED_SUCCESSFULLY]: "Token validated successfully",
+	INFO_CODE[INFO_ACTION_SUCCESFULLY]:           "%s occured succesfully",
 }
 
 var NOTI_MESSAGE = map[string]string{
@@ -64,7 +66,8 @@ var NOTI_MESSAGE = map[string]string{
 
 var ERROR_CODE = map[string]string{
 	// App errors
-	INTERNAL_SERVER: "A1001",
+	INTERNAL_SERVER:       "A1001",
+	CANNOT_VALIDATE_TOKEN: "A1002",
 
 	// User errors
 	USER_ALREADY_EXISTS:            "DU1001",
@@ -80,9 +83,10 @@ var ERROR_CODE = map[string]string{
 }
 
 var INFO_CODE = map[string]string{
-	INFO_ACTION_SUCCESFULLY: "IF1001",
-	INFO_INSERTED_USER:      "IF1002",
-	INFO_INSERTED_ACCOUNT:   "IF1003",
+	INFO_ACTION_SUCCESFULLY:           "IF1001",
+	INFO_INSERTED_USER:                "IF1002",
+	INFO_INSERTED_ACCOUNT:             "IF1003",
+	INFO_TOKEN_VALIDATED_SUCCESSFULLY: "IF1004",
 }
 
 var NOTI_CODE = map[string]string{
@@ -91,7 +95,8 @@ var NOTI_CODE = map[string]string{
 
 const (
 	// App errors
-	INTERNAL_SERVER = "INTERNAL_SERVER"
+	INTERNAL_SERVER       = "INTERNAL_SERVER"
+	CANNOT_VALIDATE_TOKEN = "CANNOT_VALIDATE_TOKEN"
 
 	// User errors
 	USER_ALREADY_EXISTS            = "USER_ALREADY_EXISTS"
@@ -109,7 +114,8 @@ const (
 	NOTI_CREATE_ACCOUNT_SUCCESSFULLY = "NOTI_CREATE_ACCOUNT_SUCCESSFULLY"
 
 	// Info
-	INFO_ACTION_SUCCESFULLY = "INFO_ACTION_SUCCESFULLY"
-	INFO_INSERTED_USER      = "INFO_INSERTED_USER"
-	INFO_INSERTED_ACCOUNT   = "INFO_INSERTED_ACCOUNT"
+	INFO_ACTION_SUCCESFULLY           = "INFO_ACTION_SUCCESFULLY"
+	INFO_INSERTED_USER                = "INFO_INSERTED_USER"
+	INFO_INSERTED_ACCOUNT             = "INFO_INSERTED_ACCOUNT"
+	INFO_TOKEN_VALIDATED_SUCCESSFULLY = "INFO_TOKEN_VALIDATED_SUCCESSFULLY"
 )

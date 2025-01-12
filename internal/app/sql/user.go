@@ -35,6 +35,8 @@ func GetUserByID(userId int) (*model.User, *craftnet_model.Error) {
 			&user.AvatarImgPath,
 			&user.Status); !lo.IsNil(err) {
 		if errors.Is(err, sql.ErrNoRows) {
+			errMsg := util.ErrorMessage(util.ERROR_CODE[util.FAIL_TO_GET], "user")
+			util.GetLogger().LogErrorWithMsgAndError(errMsg, err, false)
 			return nil, nil
 		}
 
