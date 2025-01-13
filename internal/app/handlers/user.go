@@ -23,11 +23,11 @@ func GetUser(userID int) (*model.GetUserResponse, error) {
 	}
 
 	if !lo.IsEmpty(user.AvatarImgPath) {
-		url, err := aws.GetFile(user.AvatarImgPath)
+		url, err := aws.GetFile(*user.AvatarImgPath)
 		if !lo.IsNil(err) {
 			return nil, errors.New(err.Message)
 		}
-		user.AvatarImgPath = url
+		*user.AvatarImgPath = url
 	}
 
 	response := &model.GetUserResponse{
