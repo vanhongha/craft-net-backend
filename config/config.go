@@ -7,6 +7,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+type AwsConfig struct {
+	Region string `mapstructure:"region"`
+	Bucket string `mapstructure:"bucket"`
+}
+
 type JwtAuthConfig struct {
 	Secret string `mapstructure:"secret"`
 }
@@ -21,6 +26,7 @@ type DatabaseConfig struct {
 }
 
 type Config struct {
+	Aws      AwsConfig      `mapstructure:"aws"`
 	Jwt      JwtAuthConfig  `mapstructure:"jwt"`
 	Database DatabaseConfig `mapstructure:"database"`
 }
@@ -62,4 +68,12 @@ func LoadConfig(path string) {
 
 func GetJwtSecret() string {
 	return GetAppConfig().Jwt.Secret
+}
+
+func GetAwsRegion() string {
+	return GetAppConfig().Aws.Region
+}
+
+func GetAwsBucket() string {
+	return GetAppConfig().Aws.Bucket
 }

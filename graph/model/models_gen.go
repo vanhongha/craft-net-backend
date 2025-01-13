@@ -52,12 +52,12 @@ type RegisterResponse struct {
 }
 
 type User struct {
-	ID            int     `json:"id"`
-	LastName      string  `json:"lastName"`
-	FirstName     string  `json:"firstName"`
-	DateOfBirth   string  `json:"dateOfBirth"`
-	Email         string  `json:"email"`
-	PhoneNumber   string  `json:"phoneNumber"`
-	Status        string  `json:"status"`
-	AvatarImgPath *string `json:"avatarImgPath,omitempty"`
+	ID            int    `json:"id"`
+	LastName      string `json:"lastName"`
+	FirstName     string `json:"firstName"`
+	DateOfBirth   string `json:"dateOfBirth"`
+	Email         string `json:"email"`
+	PhoneNumber   string `json:"phoneNumber"`
+	Status        string `json:"status"`
+	AvatarImgPath string `json:"avatarImgPath"`
 }

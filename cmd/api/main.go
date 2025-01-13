@@ -5,6 +5,7 @@ import (
 	"craftnet/graph"
 	"craftnet/internal/app/directives"
 	"craftnet/internal/app/middleware"
+	"craftnet/internal/aws"
 	"craftnet/internal/db"
 	"craftnet/internal/util"
 	"log"
@@ -34,6 +35,9 @@ func main() {
 	// connect to DB
 	db.ConnectDatabase()
 	defer db.Instance.Close()
+
+	// connect to AWS S3
+	aws.InitAws()
 
 	// run graphQL
 	port := os.Getenv("PORT")
