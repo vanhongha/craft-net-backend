@@ -22,16 +22,34 @@ func GetUser(userID int) (*model.GetUserResponse, error) {
 		return nil, errors.New(errMsg)
 	}
 
-	if !lo.IsEmpty(user.AvatarImgPath) {
-		url, err := aws.GetFile(*user.AvatarImgPath)
+	response := &model.GetUserResponse{
+		User: user,
+	}
+
+	if !lo.IsEmpty(user.AvatarMediaID) {
+		mediaData, err := services.GetMedia(*user.AvatarMediaID)
 		if !lo.IsNil(err) {
 			return nil, errors.New(err.Message)
 		}
-		*user.AvatarImgPath = url
+
+		url, err := aws.GetFile(mediaData.URLPath)
+		if !lo.IsNil(err) {
+			return nil, errors.New(err.Message)
+		}
+		response.AvatarURL = &url
 	}
 
-	response := &model.GetUserResponse{
-		User: user,
+	if !lo.IsEmpty(user.CoverMediaID) {
+		mediaData, err := services.GetMedia(*user.CoverMediaID)
+		if !lo.IsNil(err) {
+			return nil, errors.New(err.Message)
+		}
+
+		url, err := aws.GetFile(mediaData.URLPath)
+		if !lo.IsNil(err) {
+			return nil, errors.New(err.Message)
+		}
+		response.CoverURL = &url
 	}
 
 	return response, nil

@@ -21,7 +21,8 @@ func GetUserByID(userId int) (*model.User, *craftnet_model.Error) {
 		date_of_birth,
 		email,
 		phone_number,
-		avatar_img_path,
+		avatar_media_id,
+		cover_media_id,
 		status
 	FROM users
 	WHERE id = ? AND (status = ? OR status = ?)`
@@ -32,7 +33,8 @@ func GetUserByID(userId int) (*model.User, *craftnet_model.Error) {
 			&user.DateOfBirth,
 			&user.Email,
 			&user.PhoneNumber,
-			&user.AvatarImgPath,
+			&user.AvatarMediaID,
+			&user.CoverMediaID,
 			&user.Status); !lo.IsNil(err) {
 		if errors.Is(err, sql.ErrNoRows) {
 			errMsg := util.ErrorMessage(util.ERROR_CODE[util.FAIL_TO_GET], "user")

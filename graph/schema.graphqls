@@ -14,7 +14,13 @@ type User {
   email: String!
   phoneNumber: String!
   status: String!
-  avatarImgPath: String
+  avatar_media_id: Int64
+  cover_media_id: Int64
+}
+
+type Media {
+  id: Int64!
+  urlPath: String!
 }
 
 type Account {
@@ -55,6 +61,8 @@ type RegisterResponse {
 
 type GetUserResponse {
   user: User!
+  avatarUrl: String
+  coverUrl: String
 }
 
 type AuthOps {

@@ -19,7 +19,9 @@ type GetUserInput struct {
 }
 
 type GetUserResponse struct {
-	User *User `json:"user"`
+	User      *User   `json:"user"`
+	AvatarURL *string `json:"avatarUrl,omitempty"`
+	CoverURL  *string `json:"coverUrl,omitempty"`
 }
 
 type LoginInput struct {
@@ -31,6 +33,11 @@ type LoginResponse struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	UserID       int    `json:"userId"`
+}
+
+type Media struct {
+	ID      int    `json:"id"`
+	URLPath string `json:"urlPath"`
 }
 
 type Mutation struct {
@@ -52,12 +59,13 @@ type RegisterResponse struct {
 }
 
 type User struct {
-	ID            int     `json:"id"`
-	LastName      string  `json:"lastName"`
-	FirstName     string  `json:"firstName"`
-	DateOfBirth   string  `json:"dateOfBirth"`
-	Email         string  `json:"email"`
-	PhoneNumber   string  `json:"phoneNumber"`
-	Status        string  `json:"status"`
-	AvatarImgPath *string `json:"avatarImgPath,omitempty"`
+	ID            int    `json:"id"`
+	LastName      string `json:"lastName"`
+	FirstName     string `json:"firstName"`
+	DateOfBirth   string `json:"dateOfBirth"`
+	Email         string `json:"email"`
+	PhoneNumber   string `json:"phoneNumber"`
+	Status        string `json:"status"`
+	AvatarMediaID *int   `json:"avatar_media_id,omitempty"`
+	CoverMediaID  *int   `json:"cover_media_id,omitempty"`
 }
