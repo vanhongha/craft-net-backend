@@ -26,6 +26,7 @@ func ConnectDatabase() {
 		Net:    "tcp",
 		Addr:   fmt.Sprintf("%s:%d", dbConfig.Host, dbConfig.Port),
 		DBName: dbConfig.DBName,
+		AllowNativePasswords: dbConfig.AllowNativePasswords,
 	}
 
 	// Get a database handle.

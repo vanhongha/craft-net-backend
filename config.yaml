@@ -1,10 +1,11 @@
 database:
-  host: "localhost"
+  host: "craftnet.cjauco4am20t.ap-northeast-1.rds.amazonaws.com"
   port: 3306
-  user: "root"
+  user: "admin"
   password: "fAthice7atlriwlSiD3L"
   dbname: "craftnet"
   sslmode: "disable"
+  allowNativePasswords: true
 
 jwt:
   secret: "0254f70fca4120a693358c9b8f38df181579ec407c44f42497393a6416e6822e3b617c3b5d17f833813f4b56ae0b90d6635bd12ea40ddffc2403c689f32e9a9226b93e88c426b44d9a2e3e8fc5adac3c16bbbaea6e2b120ea2be1a022bcb1a4804d11ae0b95f87f4f54992fa4aa81b30f057920c0d2ad537c5723dd0dbcbae8eebd31359afe9c14e0cedcbae465e5b2e0be5c5b382245f7048ef08910aae4de84f25c7f9c30c5f2d22d6fc46ead69b5d558d8de4f17b0db008d5914599357acfb89023c1383ace3e80698e4d02b3df275198c91a2ffd2401bc7e4073c8c4673ad1a7680d1e2c17ec22b3c3174cccd35ff3792fe7dc2e2b9c6c4c3f95be285be4"
