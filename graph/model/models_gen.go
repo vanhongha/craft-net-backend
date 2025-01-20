@@ -59,13 +59,14 @@ type RegisterResponse struct {
 }
 
 type User struct {
-	ID            int    `json:"id"`
-	LastName      string `json:"lastName"`
-	FirstName     string `json:"firstName"`
-	DateOfBirth   string `json:"dateOfBirth"`
-	Email         string `json:"email"`
-	PhoneNumber   string `json:"phoneNumber"`
-	Status        string `json:"status"`
-	AvatarMediaID *int   `json:"avatar_media_id,omitempty"`
-	CoverMediaID  *int   `json:"cover_media_id,omitempty"`
+	ID            int     `json:"id"`
+	LastName      string  `json:"lastName"`
+	FirstName     string  `json:"firstName"`
+	DateOfBirth   string  `json:"dateOfBirth"`
+	Email         string  `json:"email"`
+	PhoneNumber   string  `json:"phoneNumber"`
+	Status        string  `json:"status"`
+	AvatarMediaID *int    `json:"avatar_media_id,omitempty"`
+	CoverMediaID  *int    `json:"cover_media_id,omitempty"`
+	Bio           *string `json:"bio,omitempty"`
 }

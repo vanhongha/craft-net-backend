@@ -16,6 +16,7 @@ type User {
   status: String!
   avatar_media_id: Int64
   cover_media_id: Int64
+  bio: String
 }
 
 type Media {
